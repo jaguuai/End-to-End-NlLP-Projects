@@ -1,0 +1,88 @@
+Default Welcome Intent
+======================
+Text response:  Hello, How can I help you? You can say "New Order" or "Track Order"
+				Good day! What can I do for you today? You can say "New Order" or "Track Order"
+				Greetings! How can I assist? You can say "New Order" or "Track Order"
+
+				
+Default Fallback Intent
+========================
+Text Response: I didn't understand. You can say 'New Order' or 'Track Order'. Also, in a new order, please mention only items from our available menu: Hamburger, Chicken Salad , Pizza, Lentil Soup, Cheese Salad, Döner, Bowl, Manti, and Taco. Also specify a quantity for each item for example: "One pizza and 2 Bowl"				
+
+
+Intent= new.order
+=================
+new order
+Place new order
+
+	Text Response = 
+		Ok, starting a new order. You can say things like "I want two pizzas and one hamburger". Make sure to specify a quantity for every food item! Also, we have only the following items on our menu: Hamburger, Chicken Salad , Pizza, Lentil Soup, Cheese Salad, Döner, Bowl, Manti, and Taco.
+
+		Starting new order. Specify food items and quantities. For example, you can say, "I would like to order two pizzas and one hamburger. Also, we have only the following items on our menu: Hamburger, Chicken Salad , Pizza, Lentil Soup, Cheese Salad, Döner, Bowl, Manti, and Taco
+
+Intent= order.add - context: ongoing-order
+==========================================
+Give me 2 plates of hamburger, one cheese pizza
+I'd like to order two hamburger,  one cheese pizza, and Chicken salad, please.
+Can you please get me two servings of hamburger, one  pizza, and one mango lassi?
+Please prepare 2 hamburger, along with one cheese pizza and 1 soup for me
+3 biryani, 2 lassi, 1 pav bhaji
+Can I get 2 plates of chole bhature, along with one cheese pizza and 1 mango lassi?
+I'll take 2 orders of chole bhature, one cheese pizza, and 1 mango lassi, if you don't mind
+I want 1 lassi, 2 chhole bhature and one vada paav, do it fast plz
+In addition, add 1 bhaji pav and 2 pizzas
+Moreover, include 2 hamburger
+Also, please give me 2 mango lassi
+Additionally, I'd like 2 mango lassi.
+2 pizza and ok lets add one biryani too
+3 biryani
+Oh yes, add one pav bhaji as well
+
+Intent= order.complete - context: ongoing-order
+==========================================
+Nope
+That's all I needed
+Done ordering it
+Place an order
+Done
+That's it
+
+Intent= order.remove - context: ongoing-order
+==========================================
+
+Kindly take bowl and döner off the order, please.
+I'd like to exclude salad and chicken, please
+I no longer want the döner in my order, please remove it
+Kindly exclude the döner from my order
+I would like to remove the pizza from my order
+Please take the pizza off my order
+hey,delete soup from my order
+I don't want bowl
+remove pizza from my order
+can you remove hamburger?
+
+Intent= track.order
+===================
+
+check the status of my order
+track order
+track existing order
+
+Text response:
+	Definitely. What is your order id?
+	Sure. Please enter your order id.
+	Definitely. What is your order id?
+
+
+Intent= track.order - context: ongoing-tracking
+==================================================
+how about 32
+how about 40?
+here it is - 63321
+here you go: 123
+here is my order number 675
+id is 453
+here is my order id # 341
+7890
+123
+345
