@@ -23,13 +23,45 @@ async def handle_request(request: Request):
     #instead if-else condition
     intent_handler_dict={
         "order.add-context:ongoing-order":add_to_order,
-        #"order.remove-context:ongoing-order":remove_from_order,
+        "order.remove-context:ongoing-order":remove_from_order,
         "order.complete-context:ongoing-order":complete_order,
         "track.order-context:ongoing-tracking":track_order
     }
     
     return intent_handler_dict[intent](parameters,session_id)   #e.g. add_to_order(parameters)
    
+def remove_from_order(parameters:dict,session_id:str):
+   if session_id not  in inprogress_orders:
+      fulfillment_text="Sorry I didn't understand. Can you please specify food items and quantities claerly "
+
+   current_order=inprogress_orders [session_id]
+   food_items=parameters["food-item"]
+   removed_items=[]
+   no_such_items=[]
+   for item in food_items:
+       if item not in current_order:
+           no_such_items.append(item)
+       else:
+            removed_items.append(item)
+            del current_order[item]
+
+   if len(removed_items)>0:
+       fulfillment_text=f"Removed {",".join(removed_items)} from your orders"
+
+   if len(no_such_items)>0:
+       
+       fulfillment_text=f"Your current order does not have {",".join(no_such_items)} "
+
+   if len(current_order.keys())==0:
+       fulfillment_text=f"Your order is empty! "
+   else:
+       order_str=generic_helper.get_str_from_food_dict(current_order)
+       fulfillment_text+=f"Here is what is left in your order: {order_str}"
+
+   return JSONResponse(content={
+        "fulfillmentText": fulfillment_text
+    })
+    
 
 def add_to_order(parameters:dict,session_id:str):
     food_items=parameters["food-item"]
@@ -48,7 +80,7 @@ def add_to_order(parameters:dict,session_id:str):
             inprogress_orders[session_id]= new_food_dict
 
         
-        order_str=generic_helper.get_str_food_dict(inprogress_orders[session_id])
+        order_str=generic_helper.get_str_from_food_dict(inprogress_orders[session_id])
         fulfillment_text=f"So far you have: {order_str} .Do you need anything else"
     
     return JSONResponse(content={
@@ -94,7 +126,7 @@ def save_to_db(order:dict):
 
     return next_order_id
 
-def track_order(parameters: dict):
+def track_order(parameters: dict,session_id:str):
     order_id = int(parameters["number"])
     order_status = db_helper.get_order_status(order_id)
 
